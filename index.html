@@ -578,8 +578,217 @@
 
         /* Section anchor offset for sticky scrolling */
         .section-anchor {
-            scroll-margin-top: 80px;
+            scroll-margin-top: 90px;
         }
+
+        /* ─── Nav FAB ────────────────────────────────────── */
+        .nav-fab {
+            position: fixed;
+            bottom: 1.75rem;
+            right: 1.75rem;
+            z-index: 200;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.06);
+            transition: transform 0.22s ease, background 0.2s, box-shadow 0.2s;
+            overflow: hidden;
+        }
+        .nav-fab:hover { transform: scale(1.08); box-shadow: 0 8px 32px rgba(0,0,0,0.45); }
+        .nav-fab.open { background: #4b5563; }
+        .nav-fab .fab-icon { position: absolute; transition: opacity 0.2s, transform 0.25s cubic-bezier(0.4,0,0.2,1); display: flex; }
+        .nav-fab .icon-list { opacity: 1; transform: rotate(0deg) scale(1); }
+        .nav-fab .icon-close-x { opacity: 0; transform: rotate(-80deg) scale(0.6); }
+        .nav-fab.open .icon-list { opacity: 0; transform: rotate(80deg) scale(0.6); }
+        .nav-fab.open .icon-close-x { opacity: 1; transform: rotate(0deg) scale(1); }
+
+        /* ─── Nav Overlay ────────────────────────────────── */
+        .nav-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.55);
+            z-index: 190;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s;
+            backdrop-filter: blur(2px);
+            -webkit-backdrop-filter: blur(2px);
+        }
+        .nav-overlay.show { opacity: 1; pointer-events: auto; }
+
+        /* ─── Nav Drawer ─────────────────────────────────── */
+        .nav-drawer {
+            position: fixed;
+            top: 0;
+            right: -340px;
+            width: min(310px, 92vw);
+            height: 100%;
+            background: var(--bg-card);
+            border-left: 1px solid var(--border);
+            z-index: 195;
+            transition: right 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: -16px 0 60px rgba(0,0,0,0.4);
+        }
+        .nav-drawer.open { right: 0; }
+
+        .nav-drawer-header {
+            padding: 0.9rem 1rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            flex-shrink: 0;
+        }
+        .nav-drawer-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.62rem;
+            font-weight: 700;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            flex: 1;
+        }
+        .nav-tab-pills {
+            display: flex;
+            gap: 0.35rem;
+        }
+        .nav-tab-pill {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.58rem;
+            font-weight: 700;
+            letter-spacing: 0.07em;
+            padding: 4px 9px;
+            border-radius: 99px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-dim);
+            cursor: pointer;
+            transition: all 0.15s;
+            white-space: nowrap;
+        }
+        .nav-tab-pill.active {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+        }
+        .nav-tab-pill:not(.active):hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+        .nav-close-btn {
+            background: none;
+            border: 1px solid var(--border);
+            color: var(--text-dim);
+            cursor: pointer;
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            line-height: 1;
+            flex-shrink: 0;
+            transition: all 0.15s;
+        }
+        .nav-close-btn:hover { color: var(--text); border-color: var(--accent); }
+
+        .nav-section-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.57rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            padding: 0.8rem 1rem 0.3rem;
+            opacity: 0.7;
+        }
+
+        .nav-drawer-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0.3rem 0 1rem;
+            overscroll-behavior: contain;
+        }
+        .nav-drawer-body::-webkit-scrollbar { width: 3px; }
+        .nav-drawer-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+        .nav-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.6rem;
+            width: 100%;
+            text-align: left;
+            padding: 0.55rem 1rem 0.55rem 1rem;
+            background: none;
+            border: none;
+            border-left: 3px solid transparent;
+            cursor: pointer;
+            color: var(--text);
+            line-height: 1.35;
+            transition: background 0.15s, color 0.15s, border-color 0.15s, padding-left 0.15s;
+        }
+        .nav-item:hover {
+            background: var(--bg-item-h);
+            border-left-color: var(--accent);
+            color: var(--accent);
+            padding-left: 1.2rem;
+        }
+        .nav-item.active {
+            background: var(--bg-item-h);
+            border-left-color: var(--accent);
+            color: var(--accent);
+        }
+        .nav-item-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.58rem;
+            color: var(--text-dim);
+            flex-shrink: 0;
+            padding-top: 0.15rem;
+            min-width: 1.4rem;
+        }
+        .nav-item-text {
+            font-family: 'Source Serif 4', Georgia, serif;
+            font-size: 0.87rem;
+        }
+
+        /* ─── Heading link copy button ───────────────────── */
+        .heading-link-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            margin-left: 0.5rem;
+            vertical-align: middle;
+            background: transparent;
+            border: 1px solid transparent;
+            border-radius: 6px;
+            cursor: pointer;
+            opacity: 0;
+            color: var(--h2-color);
+            transition: opacity 0.15s, background 0.15s, border-color 0.15s, color 0.15s;
+            flex-shrink: 0;
+            position: relative;
+            top: -2px;
+        }
+        h2:hover .heading-link-btn { opacity: 1; }
+        .heading-link-btn:hover {
+            background: var(--copy-bg) !important;
+            border-color: var(--copy-bdr) !important;
+            opacity: 1 !important;
+        }
+        .heading-link-btn:focus { opacity: 1; outline: 2px solid var(--accent); outline-offset: 2px; }
+        .heading-link-btn svg { width: 13px; height: 13px; pointer-events: none; }
 
         /* Sticky tab bar */
         .sticky-tab-wrap {
@@ -643,6 +852,8 @@
             const d = heroData[tabId] || heroData.math;
             document.getElementById('hero-title').textContent = d.title;
             document.getElementById('hero-sub').textContent   = d.sub;
+            // Refresh nav drawer tab state
+            buildNavForTab(tabId);
             // Chemistry h1 gradient
             const h1 = document.getElementById('hero-title');
             if (tabId === 'chemistry') {
@@ -678,8 +889,141 @@
             }
         }
 
-        window.addEventListener('hashchange', () => handleHash());
-        document.addEventListener('DOMContentLoaded', () => handleHash());
+        window.addEventListener('hashchange', () => {
+            handleHash();
+            setTimeout(() => buildNavForTab(currentTab()), 150);
+        });
+        document.addEventListener('DOMContentLoaded', () => {
+            handleHash();
+            injectHeadingLinkBtns();
+            buildNavForTab(currentTab());
+            initScrollSpy();
+        });
+
+        /* ─── Nav Drawer ─────────────────────────────────── */
+        function currentTab() {
+            return document.getElementById('panel-chemistry')?.classList.contains('active') ? 'chemistry' : 'math';
+        }
+
+        function getNavSections(tabId) {
+            const panel = document.getElementById('panel-' + tabId);
+            if (!panel) return [];
+            const items = [];
+            panel.querySelectorAll('h2').forEach(h2 => {
+                const id = h2.id || h2.closest('section[id]')?.id;
+                if (!id) return;
+                const clone = h2.cloneNode(true);
+                clone.querySelectorAll('.heading-link-btn').forEach(b => b.remove());
+                items.push({ id, text: clone.textContent.trim() });
+            });
+            return items;
+        }
+
+        let _navTab = 'math';
+        function buildNavForTab(tabId) {
+            _navTab = tabId;
+            const body = document.getElementById('nav-drawer-body');
+            if (!body) return;
+            body.innerHTML = '';
+            const sections = getNavSections(tabId);
+            sections.forEach((s, i) => {
+                const btn = document.createElement('button');
+                btn.className = 'nav-item';
+                btn.dataset.id = s.id;
+                btn.innerHTML = '<span class=nav-item-num>' + String(i+1).padStart(2,'0') + '</span><span class=nav-item-text>' + s.text + '</span>';
+                btn.addEventListener('click', () => {
+                    closeNav();
+                    const el = document.getElementById(s.id);
+                    if (el) setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80);
+                    history.replaceState(null, '', '#' + s.id);
+                });
+                body.appendChild(btn);
+            });
+            document.querySelectorAll('.nav-tab-pill').forEach(p => {
+                p.classList.toggle('active', p.dataset.tab === tabId);
+            });
+        }
+
+        function openNav() {
+            buildNavForTab(currentTab());
+            document.getElementById('nav-drawer').classList.add('open');
+            document.getElementById('nav-overlay').classList.add('show');
+            document.getElementById('nav-fab').classList.add('open');
+            updateScrollSpy();
+        }
+        function closeNav() {
+            document.getElementById('nav-drawer').classList.remove('open');
+            document.getElementById('nav-overlay').classList.remove('show');
+            document.getElementById('nav-fab').classList.remove('open');
+        }
+        function toggleNav() {
+            document.getElementById('nav-drawer').classList.contains('open') ? closeNav() : openNav();
+        }
+
+        /* ─── Scroll spy ─────────────────────────────────── */
+        function updateScrollSpy() {
+            const body = document.getElementById('nav-drawer-body');
+            if (!body) return;
+            const panel = document.getElementById('panel-' + _navTab);
+            if (!panel) return;
+            const scrollY = window.scrollY + 120;
+            let activeId = null;
+            panel.querySelectorAll('h2').forEach(h2 => {
+                const id = h2.id || h2.closest('section[id]')?.id;
+                if (!id) return;
+                const el = document.getElementById(id);
+                if (el && el.getBoundingClientRect().top + window.scrollY <= scrollY) activeId = id;
+            });
+            body.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.toggle('active', item.dataset.id === activeId);
+            });
+            const activeItem = body.querySelector('.nav-item.active');
+            if (activeItem) activeItem.scrollIntoView({ block: 'nearest' });
+        }
+
+        function initScrollSpy() {
+            window.addEventListener('scroll', () => {
+                if (document.getElementById('nav-drawer').classList.contains('open')) updateScrollSpy();
+            }, { passive: true });
+        }
+
+        /* ─── Heading link-copy buttons ──────────────────── */
+        const LINK_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757"/><path d="M9.81 15.312a4.5 4.5 0 0 1-1.242-7.244l4.5-4.5a4.5 4.5 0 0 1 6.364 6.364l-1.757 1.757"/></svg>';
+        const CHECK_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.75 6 6 9-13.5"/></svg>';
+
+        function addHeadingLinkBtn(h2, sectionId) {
+            if (h2.querySelector('.heading-link-btn')) return;
+            const btn = document.createElement('button');
+            btn.className = 'heading-link-btn';
+            btn.title = 'Copy link to section';
+            btn.setAttribute('aria-label', 'Copy section link');
+            btn.innerHTML = LINK_ICON;
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                const url = location.href.split('#')[0] + '#' + sectionId;
+                const doFallback = () => {
+                    const ta = document.createElement('textarea');
+                    ta.value = url; ta.style.position='fixed'; ta.style.top='-999px';
+                    document.body.appendChild(ta); ta.select();
+                    document.execCommand('copy'); document.body.removeChild(ta);
+                };
+                if (navigator.clipboard) {
+                    navigator.clipboard.writeText(url).catch(doFallback);
+                } else { doFallback(); }
+                btn.innerHTML = CHECK_ICON;
+                btn.style.cssText = 'background:#d1fae5;border-color:#6ee7b7;color:#059669;opacity:1';
+                setTimeout(() => { btn.innerHTML = LINK_ICON; btn.removeAttribute('style'); }, 1800);
+            });
+            h2.appendChild(btn);
+        }
+
+        function injectHeadingLinkBtns() {
+            document.querySelectorAll('h2[id]').forEach(h2 => addHeadingLinkBtn(h2, h2.id));
+            document.querySelectorAll('section[id] h2:not([id])').forEach(h2 => {
+                addHeadingLinkBtn(h2, h2.closest('section[id]').id);
+            });
+        }
 
         function solveQuestion(button) {
             const query = button.getAttribute('data-content');
@@ -1041,60 +1385,61 @@
         <!-- V. FUNCTION ANALYSIS & GRAPHING -->
         <section class="math-section section-anchor">
             <h2 id="math-functions" class="section-anchor">V. Function Analysis & Graphing</h2>
-            <p class="section-instruction">Determine domain X, monotonicity, intervals, any relative and absolute extremal points, asymptotes, and draw the graph:</p>
+            <p class="section-instruction">Determine domain X, monotonicity, extrema, asymptotes, and draw the
+                graph:</p>
             <ol class="prob-list">
                 <li><span class="prob-num"></span>
                     <span>$f(x) = x e^{\frac{x-1}{x^3}}$</span>
                     <div class="btn-group">
-                        <button onclick="copyText(this)" data-content="Analyze the function f(x) = x * e^((x-1)/x^3): determine domain, monotonicity, intervals of increase/decrease, relative and absolute extremal points, asymptotes, and draw the graph." class="copy-btn">COPY</button>
-                        <button onclick="solveQuestion(this)" data-content="Analyze the function f(x) = x * e^((x-1)/x^3): determine domain, monotonicity, intervals of increase/decrease, relative and absolute extremal points, asymptotes, and draw the graph." class="solve-btn">GOOGLE</button>
-                            <button class="perp-btn" onclick="perplexitySearch(this)" data-content="Analyze the function f(x) = x * e^((x-1)/x^3): determine domain, monotonicity, intervals of increase/decrease, relative and absolute extremal points, asymptotes, and draw the graph."><svg class="perp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22 12L13.6 4v4.5H9.4C6.4 8.5 4 10.9 4 14s2.4 5.5 5.4 5.5h1.1V22L22 12zM9.4 17.5c-1.9 0-3.4-1.5-3.4-3.5s1.5-3.5 3.4-3.5h4.2v3.3L17.1 12l-3.5-3.8V10H9.4z"/></svg>ASK</button>
-                            <button class="brave-btn" onclick="braveSearch(this)" data-content="Analyze the function f(x) = x * e^((x-1)/x^3): determine domain, monotonicity, intervals of increase/decrease, relative and absolute extremal points, asymptotes, and draw the graph."><svg class="brave-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L3 6v5c0 5.25 3.75 10.15 9 11.25C17.25 21.15 21 16.25 21 11V6L12 2zm0 2.18l7 3.27V11c0 4.25-2.98 8.18-7 9.35C7.98 19.18 5 15.25 5 11V7.45l7-3.27zM11 7v5.5l1 .5 1-.5V7h-2zm0 7v2h2v-2h-2z"/></svg>BRAVE</button>
+                        <button onclick="copyText(this)" data-content="Analyze function f(x) = x * e^((x-1)/x^3): find domain, monotonicity, extrema, asymptotes, and draw graph." class="copy-btn">COPY</button>
+                        <button onclick="solveQuestion(this)" data-content="Analyze function f(x) = x * e^((x-1)/x^3): domain, monotonicity, extrema, asymptotes, graph" class="solve-btn">GOOGLE</button>
+                            <button class="perp-btn" onclick="perplexitySearch(this)" data-content="Analyze function f(x) = x * e^((x-1)/x^3): domain, monotonicity, extrema, asymptotes, graph"><svg class="perp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22 12L13.6 4v4.5H9.4C6.4 8.5 4 10.9 4 14s2.4 5.5 5.4 5.5h1.1V22L22 12zM9.4 17.5c-1.9 0-3.4-1.5-3.4-3.5s1.5-3.5 3.4-3.5h4.2v3.3L17.1 12l-3.5-3.8V10H9.4z"/></svg>ASK</button>
+                            <button class="brave-btn" onclick="braveSearch(this)" data-content="Analyze function f(x) = x * e^((x-1)/x^3): domain, monotonicity, extrema, asymptotes, graph"><svg class="brave-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L3 6v5c0 5.25 3.75 10.15 9 11.25C17.25 21.15 21 16.25 21 11V6L12 2zm0 2.18l7 3.27V11c0 4.25-2.98 8.18-7 9.35C7.98 19.18 5 15.25 5 11V7.45l7-3.27zM11 7v5.5l1 .5 1-.5V7h-2zm0 7v2h2v-2h-2z"/></svg>BRAVE</button>
                     </div>
                 </li>
                 <li><span class="prob-num"></span>
                     <span>$f(x) = e^{-x} \sqrt{1 + x}$</span>
                     <div class="btn-group">
-                        <button onclick="copyText(this)" data-content="Analyze the function f(x) = e^(-x) * sqrt(1 + x): determine domain, monotonicity, intervals of increase/decrease, relative and absolute extremal points, asymptotes, and draw the graph." class="copy-btn">COPY</button>
-                        <button onclick="solveQuestion(this)" data-content="Analyze the function f(x) = e^(-x) * sqrt(1 + x): determine domain, monotonicity, intervals of increase/decrease, relative and absolute extremal points, asymptotes, and draw the graph." class="solve-btn">GOOGLE</button>
-                            <button class="perp-btn" onclick="perplexitySearch(this)" data-content="Analyze the function f(x) = e^(-x) * sqrt(1 + x): determine domain, monotonicity, intervals of increase/decrease, relative and absolute extremal points, asymptotes, and draw the graph."><svg class="perp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22 12L13.6 4v4.5H9.4C6.4 8.5 4 10.9 4 14s2.4 5.5 5.4 5.5h1.1V22L22 12zM9.4 17.5c-1.9 0-3.4-1.5-3.4-3.5s1.5-3.5 3.4-3.5h4.2v3.3L17.1 12l-3.5-3.8V10H9.4z"/></svg>ASK</button>
-                            <button class="brave-btn" onclick="braveSearch(this)" data-content="Analyze the function f(x) = e^(-x) * sqrt(1 + x): determine domain, monotonicity, intervals of increase/decrease, relative and absolute extremal points, asymptotes, and draw the graph."><svg class="brave-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L3 6v5c0 5.25 3.75 10.15 9 11.25C17.25 21.15 21 16.25 21 11V6L12 2zm0 2.18l7 3.27V11c0 4.25-2.98 8.18-7 9.35C7.98 19.18 5 15.25 5 11V7.45l7-3.27zM11 7v5.5l1 .5 1-.5V7h-2zm0 7v2h2v-2h-2z"/></svg>BRAVE</button>
+                        <button onclick="copyText(this)" data-content="Analyze function f(x) = e^-x * sqrt(1 + x): find domain, monotonicity, extrema, asymptotes, and draw graph." class="copy-btn">COPY</button>
+                        <button onclick="solveQuestion(this)" data-content="Analyze function f(x) = e^-x * sqrt(1 + x): domain, monotonicity, extrema, asymptotes, graph" class="solve-btn">GOOGLE</button>
+                            <button class="perp-btn" onclick="perplexitySearch(this)" data-content="Analyze function f(x) = e^-x * sqrt(1 + x): domain, monotonicity, extrema, asymptotes, graph"><svg class="perp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22 12L13.6 4v4.5H9.4C6.4 8.5 4 10.9 4 14s2.4 5.5 5.4 5.5h1.1V22L22 12zM9.4 17.5c-1.9 0-3.4-1.5-3.4-3.5s1.5-3.5 3.4-3.5h4.2v3.3L17.1 12l-3.5-3.8V10H9.4z"/></svg>ASK</button>
+                            <button class="brave-btn" onclick="braveSearch(this)" data-content="Analyze function f(x) = e^-x * sqrt(1 + x): domain, monotonicity, extrema, asymptotes, graph"><svg class="brave-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L3 6v5c0 5.25 3.75 10.15 9 11.25C17.25 21.15 21 16.25 21 11V6L12 2zm0 2.18l7 3.27V11c0 4.25-2.98 8.18-7 9.35C7.98 19.18 5 15.25 5 11V7.45l7-3.27zM11 7v5.5l1 .5 1-.5V7h-2zm0 7v2h2v-2h-2z"/></svg>BRAVE</button>
                     </div>
                 </li>
                 <li><span class="prob-num"></span>
                     <span>$f(x) = x - \sqrt{x^2 - 1}$</span>
                     <div class="btn-group">
-                        <button onclick="copyText(this)" data-content="Analyze the function f(x) = x - sqrt(x^2 - 1): determine domain, monotonicity, intervals of increase/decrease, relative and absolute extremal points, asymptotes, and draw the graph." class="copy-btn">COPY</button>
-                        <button onclick="solveQuestion(this)" data-content="Analyze the function f(x) = x - sqrt(x^2 - 1): determine domain, monotonicity, intervals of increase/decrease, relative and absolute extremal points, asymptotes, and draw the graph." class="solve-btn">GOOGLE</button>
-                            <button class="perp-btn" onclick="perplexitySearch(this)" data-content="Analyze the function f(x) = x - sqrt(x^2 - 1): determine domain, monotonicity, intervals of increase/decrease, relative and absolute extremal points, asymptotes, and draw the graph."><svg class="perp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22 12L13.6 4v4.5H9.4C6.4 8.5 4 10.9 4 14s2.4 5.5 5.4 5.5h1.1V22L22 12zM9.4 17.5c-1.9 0-3.4-1.5-3.4-3.5s1.5-3.5 3.4-3.5h4.2v3.3L17.1 12l-3.5-3.8V10H9.4z"/></svg>ASK</button>
-                            <button class="brave-btn" onclick="braveSearch(this)" data-content="Analyze the function f(x) = x - sqrt(x^2 - 1): determine domain, monotonicity, intervals of increase/decrease, relative and absolute extremal points, asymptotes, and draw the graph."><svg class="brave-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L3 6v5c0 5.25 3.75 10.15 9 11.25C17.25 21.15 21 16.25 21 11V6L12 2zm0 2.18l7 3.27V11c0 4.25-2.98 8.18-7 9.35C7.98 19.18 5 15.25 5 11V7.45l7-3.27zM11 7v5.5l1 .5 1-.5V7h-2zm0 7v2h2v-2h-2z"/></svg>BRAVE</button>
+                        <button onclick="copyText(this)" data-content="Analyze function f(x) = x - sqrt(x^2 - 1): find domain, monotonicity, extrema, asymptotes, and draw graph." class="copy-btn">COPY</button>
+                        <button onclick="solveQuestion(this)" data-content="Analyze function f(x) = x - sqrt(x^2 - 1): domain, monotonicity, extrema, asymptotes, graph" class="solve-btn">GOOGLE</button>
+                            <button class="perp-btn" onclick="perplexitySearch(this)" data-content="Analyze function f(x) = x - sqrt(x^2 - 1): domain, monotonicity, extrema, asymptotes, graph"><svg class="perp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22 12L13.6 4v4.5H9.4C6.4 8.5 4 10.9 4 14s2.4 5.5 5.4 5.5h1.1V22L22 12zM9.4 17.5c-1.9 0-3.4-1.5-3.4-3.5s1.5-3.5 3.4-3.5h4.2v3.3L17.1 12l-3.5-3.8V10H9.4z"/></svg>ASK</button>
+                            <button class="brave-btn" onclick="braveSearch(this)" data-content="Analyze function f(x) = x - sqrt(x^2 - 1): domain, monotonicity, extrema, asymptotes, graph"><svg class="brave-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L3 6v5c0 5.25 3.75 10.15 9 11.25C17.25 21.15 21 16.25 21 11V6L12 2zm0 2.18l7 3.27V11c0 4.25-2.98 8.18-7 9.35C7.98 19.18 5 15.25 5 11V7.45l7-3.27zM11 7v5.5l1 .5 1-.5V7h-2zm0 7v2h2v-2h-2z"/></svg>BRAVE</button>
                     </div>
                 </li>
                 <li><span class="prob-num"></span>
                     <span>$f(x) = \frac{\log(x + 5) - 2}{x + 5}$</span>
                     <div class="btn-group">
-                        <button onclick="copyText(this)" data-content="Analyze the function f(x) = (log(x + 5) - 2) / (x + 5): determine domain, monotonicity, intervals of increase/decrease, relative and absolute extremal points, asymptotes, and draw the graph." class="copy-btn">COPY</button>
-                        <button onclick="solveQuestion(this)" data-content="Analyze the function f(x) = (log(x + 5) - 2) / (x + 5): determine domain, monotonicity, intervals of increase/decrease, relative and absolute extremal points, asymptotes, and draw the graph." class="solve-btn">GOOGLE</button>
-                            <button class="perp-btn" onclick="perplexitySearch(this)" data-content="Analyze the function f(x) = (log(x + 5) - 2) / (x + 5): determine domain, monotonicity, intervals of increase/decrease, relative and absolute extremal points, asymptotes, and draw the graph."><svg class="perp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22 12L13.6 4v4.5H9.4C6.4 8.5 4 10.9 4 14s2.4 5.5 5.4 5.5h1.1V22L22 12zM9.4 17.5c-1.9 0-3.4-1.5-3.4-3.5s1.5-3.5 3.4-3.5h4.2v3.3L17.1 12l-3.5-3.8V10H9.4z"/></svg>ASK</button>
-                            <button class="brave-btn" onclick="braveSearch(this)" data-content="Analyze the function f(x) = (log(x + 5) - 2) / (x + 5): determine domain, monotonicity, intervals of increase/decrease, relative and absolute extremal points, asymptotes, and draw the graph."><svg class="brave-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L3 6v5c0 5.25 3.75 10.15 9 11.25C17.25 21.15 21 16.25 21 11V6L12 2zm0 2.18l7 3.27V11c0 4.25-2.98 8.18-7 9.35C7.98 19.18 5 15.25 5 11V7.45l7-3.27zM11 7v5.5l1 .5 1-.5V7h-2zm0 7v2h2v-2h-2z"/></svg>BRAVE</button>
+                        <button onclick="copyText(this)" data-content="Analyze function f(x) = (log(x + 5) - 2) / (x + 5): find domain, monotonicity, extrema, asymptotes, and draw graph." class="copy-btn">COPY</button>
+                        <button onclick="solveQuestion(this)" data-content="Analyze function f(x) = (log(x + 5) - 2) / (x + 5): domain, monotonicity, extrema, asymptotes, graph" class="solve-btn">GOOGLE</button>
+                            <button class="perp-btn" onclick="perplexitySearch(this)" data-content="Analyze function f(x) = (log(x + 5) - 2) / (x + 5): domain, monotonicity, extrema, asymptotes, graph"><svg class="perp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22 12L13.6 4v4.5H9.4C6.4 8.5 4 10.9 4 14s2.4 5.5 5.4 5.5h1.1V22L22 12zM9.4 17.5c-1.9 0-3.4-1.5-3.4-3.5s1.5-3.5 3.4-3.5h4.2v3.3L17.1 12l-3.5-3.8V10H9.4z"/></svg>ASK</button>
+                            <button class="brave-btn" onclick="braveSearch(this)" data-content="Analyze function f(x) = (log(x + 5) - 2) / (x + 5): domain, monotonicity, extrema, asymptotes, graph"><svg class="brave-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L3 6v5c0 5.25 3.75 10.15 9 11.25C17.25 21.15 21 16.25 21 11V6L12 2zm0 2.18l7 3.27V11c0 4.25-2.98 8.18-7 9.35C7.98 19.18 5 15.25 5 11V7.45l7-3.27zM11 7v5.5l1 .5 1-.5V7h-2zm0 7v2h2v-2h-2z"/></svg>BRAVE</button>
                     </div>
                 </li>
                 <li><span class="prob-num"></span>
                     <span>$f(x) = \frac{\log(x + 3) - 4}{x + 3}$</span>
                     <div class="btn-group">
-                        <button onclick="copyText(this)" data-content="Analyze the function f(x) = (log(x + 3) - 4) / (x + 3): determine domain, monotonicity, intervals of increase/decrease, relative and absolute extremal points, asymptotes, and draw the graph." class="copy-btn">COPY</button>
-                        <button onclick="solveQuestion(this)" data-content="Analyze the function f(x) = (log(x + 3) - 4) / (x + 3): determine domain, monotonicity, intervals of increase/decrease, relative and absolute extremal points, asymptotes, and draw the graph." class="solve-btn">GOOGLE</button>
-                            <button class="perp-btn" onclick="perplexitySearch(this)" data-content="Analyze the function f(x) = (log(x + 3) - 4) / (x + 3): determine domain, monotonicity, intervals of increase/decrease, relative and absolute extremal points, asymptotes, and draw the graph."><svg class="perp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22 12L13.6 4v4.5H9.4C6.4 8.5 4 10.9 4 14s2.4 5.5 5.4 5.5h1.1V22L22 12zM9.4 17.5c-1.9 0-3.4-1.5-3.4-3.5s1.5-3.5 3.4-3.5h4.2v3.3L17.1 12l-3.5-3.8V10H9.4z"/></svg>ASK</button>
-                            <button class="brave-btn" onclick="braveSearch(this)" data-content="Analyze the function f(x) = (log(x + 3) - 4) / (x + 3): determine domain, monotonicity, intervals of increase/decrease, relative and absolute extremal points, asymptotes, and draw the graph."><svg class="brave-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L3 6v5c0 5.25 3.75 10.15 9 11.25C17.25 21.15 21 16.25 21 11V6L12 2zm0 2.18l7 3.27V11c0 4.25-2.98 8.18-7 9.35C7.98 19.18 5 15.25 5 11V7.45l7-3.27zM11 7v5.5l1 .5 1-.5V7h-2zm0 7v2h2v-2h-2z"/></svg>BRAVE</button>
+                        <button onclick="copyText(this)" data-content="Analyze function f(x) = (log(x + 3) - 4) / (x + 3): find domain, monotonicity, extrema, asymptotes, and draw graph." class="copy-btn">COPY</button>
+                        <button onclick="solveQuestion(this)" data-content="Analyze function f(x) = (log(x + 3) - 4) / (x + 3): domain, monotonicity, extrema, asymptotes, graph" class="solve-btn">GOOGLE</button>
+                            <button class="perp-btn" onclick="perplexitySearch(this)" data-content="Analyze function f(x) = (log(x + 3) - 4) / (x + 3): domain, monotonicity, extrema, asymptotes, graph"><svg class="perp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22 12L13.6 4v4.5H9.4C6.4 8.5 4 10.9 4 14s2.4 5.5 5.4 5.5h1.1V22L22 12zM9.4 17.5c-1.9 0-3.4-1.5-3.4-3.5s1.5-3.5 3.4-3.5h4.2v3.3L17.1 12l-3.5-3.8V10H9.4z"/></svg>ASK</button>
+                            <button class="brave-btn" onclick="braveSearch(this)" data-content="Analyze function f(x) = (log(x + 3) - 4) / (x + 3): domain, monotonicity, extrema, asymptotes, graph"><svg class="brave-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L3 6v5c0 5.25 3.75 10.15 9 11.25C17.25 21.15 21 16.25 21 11V6L12 2zm0 2.18l7 3.27V11c0 4.25-2.98 8.18-7 9.35C7.98 19.18 5 15.25 5 11V7.45l7-3.27zM11 7v5.5l1 .5 1-.5V7h-2zm0 7v2h2v-2h-2z"/></svg>BRAVE</button>
                     </div>
                 </li>
                 <li><span class="prob-num"></span>
                     <span class="prob-text">$f(x) = \dfrac{e^{2x}}{x - 3}$</span>
                     <div class="btn-group">
-                        <button class="copy-btn"  onclick="copyText(this)"         data-content="Analyze the function f(x) = e^(2x) / (x - 3): determine domain, monotonicity, intervals of increase/decrease, relative and absolute extremal points, asymptotes, and draw the graph.">COPY</button>
-                        <button class="solve-btn" onclick="solveQuestion(this)"    data-content="Analyze the function f(x) = e^(2x) / (x - 3): determine domain, monotonicity, intervals of increase/decrease, relative and absolute extremal points, asymptotes, and draw the graph.">GOOGLE</button>
-                        <button class="perp-btn"  onclick="perplexitySearch(this)" data-content="Analyze the function f(x) = e^(2x) / (x - 3): determine domain, monotonicity, intervals of increase/decrease, relative and absolute extremal points, asymptotes, and draw the graph."><svg class="perp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22 12L13.6 4v4.5H9.4C6.4 8.5 4 10.9 4 14s2.4 5.5 5.4 5.5h1.1V22L22 12zM9.4 17.5c-1.9 0-3.4-1.5-3.4-3.5s1.5-3.5 3.4-3.5h4.2v3.3L17.1 12l-3.5-3.8V10H9.4z"/></svg>ASK</button>
-                        <button class="brave-btn" onclick="braveSearch(this)"      data-content="Analyze the function f(x) = e^(2x) / (x - 3): determine domain, monotonicity, intervals of increase/decrease, relative and absolute extremal points, asymptotes, and draw the graph."><svg class="brave-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L3 6v5c0 5.25 3.75 10.15 9 11.25C17.25 21.15 21 16.25 21 11V6L12 2zm0 2.18l7 3.27V11c0 4.25-2.98 8.18-7 9.35C7.98 19.18 5 15.25 5 11V7.45l7-3.27zM11 7v5.5l1 .5 1-.5V7h-2zm0 7v2h2v-2h-2z"/></svg>BRAVE</button>
+                        <button class="copy-btn"  onclick="copyText(this)"         data-content="Analyze function f(x) = e^(2x) / (x - 3): determine domain, monotonicity, extrema, asymptotes, and draw the graph.">COPY</button>
+                        <button class="solve-btn" onclick="solveQuestion(this)"    data-content="Analyze function f(x) = e^(2x) / (x - 3): determine domain, monotonicity, extrema, asymptotes, and draw the graph.">GOOGLE</button>
+                        <button class="perp-btn"  onclick="perplexitySearch(this)" data-content="Analyze function f(x) = e^(2x) / (x - 3): determine domain, monotonicity, extrema, asymptotes, and draw the graph."><svg class="perp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22 12L13.6 4v4.5H9.4C6.4 8.5 4 10.9 4 14s2.4 5.5 5.4 5.5h1.1V22L22 12zM9.4 17.5c-1.9 0-3.4-1.5-3.4-3.5s1.5-3.5 3.4-3.5h4.2v3.3L17.1 12l-3.5-3.8V10H9.4z"/></svg>ASK</button>
+                        <button class="brave-btn" onclick="braveSearch(this)"      data-content="Analyze function f(x) = e^(2x) / (x - 3): determine domain, monotonicity, extrema, asymptotes, and draw the graph."><svg class="brave-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L3 6v5c0 5.25 3.75 10.15 9 11.25C17.25 21.15 21 16.25 21 11V6L12 2zm0 2.18l7 3.27V11c0 4.25-2.98 8.18-7 9.35C7.98 19.18 5 15.25 5 11V7.45l7-3.27zM11 7v5.5l1 .5 1-.5V7h-2zm0 7v2h2v-2h-2z"/></svg>BRAVE</button>
                     </div>
                 </li>
             </ol>
@@ -1147,104 +1492,6 @@
                         <button class="solve-btn" onclick="solveQuestion(this)"    data-content="Calculate the integral of (x+1)^2 * log^2(x+1) dx">GOOGLE</button>
                         <button class="perp-btn"  onclick="perplexitySearch(this)" data-content="Calculate the integral of (x+1)^2 * log^2(x+1) dx"><svg class="perp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22 12L13.6 4v4.5H9.4C6.4 8.5 4 10.9 4 14s2.4 5.5 5.4 5.5h1.1V22L22 12zM9.4 17.5c-1.9 0-3.4-1.5-3.4-3.5s1.5-3.5 3.4-3.5h4.2v3.3L17.1 12l-3.5-3.8V10H9.4z"/></svg>ASK</button>
                         <button class="brave-btn" onclick="braveSearch(this)"      data-content="Calculate the integral of (x+1)^2 * log^2(x+1) dx"><svg class="brave-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L3 6v5c0 5.25 3.75 10.15 9 11.25C17.25 21.15 21 16.25 21 11V6L12 2zm0 2.18l7 3.27V11c0 4.25-2.98 8.18-7 9.35C7.98 19.18 5 15.25 5 11V7.45l7-3.27zM11 7v5.5l1 .5 1-.5V7h-2zm0 7v2h2v-2h-2z"/></svg>BRAVE</button>
-                    </div>
-                </li>
-            </ol>
-        </section>
-
-        <!-- VII. INTEGRATION EXERCISES -->
-        <section class="math-section section-anchor">
-            <h2 id="math-intex" class="section-anchor">VII. Integration Exercises</h2>
-            <p class="section-instruction">Evaluate the following integrals (hard difficulty):</p>
-            <ol class="prob-list">
-                <li><span class="prob-num"></span>
-                    <span class="prob-text">$\displaystyle\int x^2 \ln^2 x \, dx$</span>
-                    <div class="btn-group">
-                        <button class="copy-btn"  onclick="copyText(this)"         data-content="Calculate the integral of x^2 * (ln x)^2 dx">COPY</button>
-                        <button class="solve-btn" onclick="solveQuestion(this)"    data-content="Calculate the integral of x^2 * (ln x)^2 dx">GOOGLE</button>
-                        <button class="perp-btn"  onclick="perplexitySearch(this)" data-content="Calculate the integral of x^2 * (ln x)^2 dx"><svg class="perp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22 12L13.6 4v4.5H9.4C6.4 8.5 4 10.9 4 14s2.4 5.5 5.4 5.5h1.1V22L22 12zM9.4 17.5c-1.9 0-3.4-1.5-3.4-3.5s1.5-3.5 3.4-3.5h4.2v3.3L17.1 12l-3.5-3.8V10H9.4z"/></svg>ASK</button>
-                        <button class="brave-btn" onclick="braveSearch(this)"      data-content="Calculate the integral of x^2 * (ln x)^2 dx"><svg class="brave-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L3 6v5c0 5.25 3.75 10.15 9 11.25C17.25 21.15 21 16.25 21 11V6L12 2zm0 2.18l7 3.27V11c0 4.25-2.98 8.18-7 9.35C7.98 19.18 5 15.25 5 11V7.45l7-3.27zM11 7v5.5l1 .5 1-.5V7h-2zm0 7v2h2v-2h-2z"/></svg>BRAVE</button>
-                    </div>
-                </li>
-                <li><span class="prob-num"></span>
-                    <span class="prob-text">$\displaystyle\int \frac{\ln x}{x^2} \, dx$</span>
-                    <div class="btn-group">
-                        <button class="copy-btn"  onclick="copyText(this)"         data-content="Calculate the integral of (ln x) / x^2 dx">COPY</button>
-                        <button class="solve-btn" onclick="solveQuestion(this)"    data-content="Calculate the integral of (ln x) / x^2 dx">GOOGLE</button>
-                        <button class="perp-btn"  onclick="perplexitySearch(this)" data-content="Calculate the integral of (ln x) / x^2 dx"><svg class="perp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22 12L13.6 4v4.5H9.4C6.4 8.5 4 10.9 4 14s2.4 5.5 5.4 5.5h1.1V22L22 12zM9.4 17.5c-1.9 0-3.4-1.5-3.4-3.5s1.5-3.5 3.4-3.5h4.2v3.3L17.1 12l-3.5-3.8V10H9.4z"/></svg>ASK</button>
-                        <button class="brave-btn" onclick="braveSearch(this)"      data-content="Calculate the integral of (ln x) / x^2 dx"><svg class="brave-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L3 6v5c0 5.25 3.75 10.15 9 11.25C17.25 21.15 21 16.25 21 11V6L12 2zm0 2.18l7 3.27V11c0 4.25-2.98 8.18-7 9.35C7.98 19.18 5 15.25 5 11V7.45l7-3.27zM11 7v5.5l1 .5 1-.5V7h-2zm0 7v2h2v-2h-2z"/></svg>BRAVE</button>
-                    </div>
-                </li>
-                <li><span class="prob-num"></span>
-                    <span class="prob-text">$\displaystyle\int x \arctan x \, dx$</span>
-                    <div class="btn-group">
-                        <button class="copy-btn"  onclick="copyText(this)"         data-content="Calculate the integral of x * arctan(x) dx">COPY</button>
-                        <button class="solve-btn" onclick="solveQuestion(this)"    data-content="Calculate the integral of x * arctan(x) dx">GOOGLE</button>
-                        <button class="perp-btn"  onclick="perplexitySearch(this)" data-content="Calculate the integral of x * arctan(x) dx"><svg class="perp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22 12L13.6 4v4.5H9.4C6.4 8.5 4 10.9 4 14s2.4 5.5 5.4 5.5h1.1V22L22 12zM9.4 17.5c-1.9 0-3.4-1.5-3.4-3.5s1.5-3.5 3.4-3.5h4.2v3.3L17.1 12l-3.5-3.8V10H9.4z"/></svg>ASK</button>
-                        <button class="brave-btn" onclick="braveSearch(this)"      data-content="Calculate the integral of x * arctan(x) dx"><svg class="brave-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L3 6v5c0 5.25 3.75 10.15 9 11.25C17.25 21.15 21 16.25 21 11V6L12 2zm0 2.18l7 3.27V11c0 4.25-2.98 8.18-7 9.35C7.98 19.18 5 15.25 5 11V7.45l7-3.27zM11 7v5.5l1 .5 1-.5V7h-2zm0 7v2h2v-2h-2z"/></svg>BRAVE</button>
-                    </div>
-                </li>
-                <li><span class="prob-num"></span>
-                    <span class="prob-text">$\displaystyle\int \frac{x^3}{(x^2+1)^2} \, dx$</span>
-                    <div class="btn-group">
-                        <button class="copy-btn"  onclick="copyText(this)"         data-content="Calculate the integral of x^3 / (x^2 + 1)^2 dx">COPY</button>
-                        <button class="solve-btn" onclick="solveQuestion(this)"    data-content="Calculate the integral of x^3 / (x^2 + 1)^2 dx">GOOGLE</button>
-                        <button class="perp-btn"  onclick="perplexitySearch(this)" data-content="Calculate the integral of x^3 / (x^2 + 1)^2 dx"><svg class="perp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22 12L13.6 4v4.5H9.4C6.4 8.5 4 10.9 4 14s2.4 5.5 5.4 5.5h1.1V22L22 12zM9.4 17.5c-1.9 0-3.4-1.5-3.4-3.5s1.5-3.5 3.4-3.5h4.2v3.3L17.1 12l-3.5-3.8V10H9.4z"/></svg>ASK</button>
-                        <button class="brave-btn" onclick="braveSearch(this)"      data-content="Calculate the integral of x^3 / (x^2 + 1)^2 dx"><svg class="brave-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L3 6v5c0 5.25 3.75 10.15 9 11.25C17.25 21.15 21 16.25 21 11V6L12 2zm0 2.18l7 3.27V11c0 4.25-2.98 8.18-7 9.35C7.98 19.18 5 15.25 5 11V7.45l7-3.27zM11 7v5.5l1 .5 1-.5V7h-2zm0 7v2h2v-2h-2z"/></svg>BRAVE</button>
-                    </div>
-                </li>
-                <li><span class="prob-num"></span>
-                    <span class="prob-text">$\displaystyle\int \frac{1}{\sin x \cos^2 x} \, dx$</span>
-                    <div class="btn-group">
-                        <button class="copy-btn"  onclick="copyText(this)"         data-content="Calculate the integral of 1 / (sin x * cos^2 x) dx">COPY</button>
-                        <button class="solve-btn" onclick="solveQuestion(this)"    data-content="Calculate the integral of 1 / (sin x * cos^2 x) dx">GOOGLE</button>
-                        <button class="perp-btn"  onclick="perplexitySearch(this)" data-content="Calculate the integral of 1 / (sin x * cos^2 x) dx"><svg class="perp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22 12L13.6 4v4.5H9.4C6.4 8.5 4 10.9 4 14s2.4 5.5 5.4 5.5h1.1V22L22 12zM9.4 17.5c-1.9 0-3.4-1.5-3.4-3.5s1.5-3.5 3.4-3.5h4.2v3.3L17.1 12l-3.5-3.8V10H9.4z"/></svg>ASK</button>
-                        <button class="brave-btn" onclick="braveSearch(this)"      data-content="Calculate the integral of 1 / (sin x * cos^2 x) dx"><svg class="brave-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L3 6v5c0 5.25 3.75 10.15 9 11.25C17.25 21.15 21 16.25 21 11V6L12 2zm0 2.18l7 3.27V11c0 4.25-2.98 8.18-7 9.35C7.98 19.18 5 15.25 5 11V7.45l7-3.27zM11 7v5.5l1 .5 1-.5V7h-2zm0 7v2h2v-2h-2z"/></svg>BRAVE</button>
-                    </div>
-                </li>
-                <li><span class="prob-num"></span>
-                    <span class="prob-text">$\displaystyle\int e^{\sqrt{x}} \, dx$</span>
-                    <div class="btn-group">
-                        <button class="copy-btn"  onclick="copyText(this)"         data-content="Calculate the integral of e^(sqrt(x)) dx">COPY</button>
-                        <button class="solve-btn" onclick="solveQuestion(this)"    data-content="Calculate the integral of e^(sqrt(x)) dx">GOOGLE</button>
-                        <button class="perp-btn"  onclick="perplexitySearch(this)" data-content="Calculate the integral of e^(sqrt(x)) dx"><svg class="perp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22 12L13.6 4v4.5H9.4C6.4 8.5 4 10.9 4 14s2.4 5.5 5.4 5.5h1.1V22L22 12zM9.4 17.5c-1.9 0-3.4-1.5-3.4-3.5s1.5-3.5 3.4-3.5h4.2v3.3L17.1 12l-3.5-3.8V10H9.4z"/></svg>ASK</button>
-                        <button class="brave-btn" onclick="braveSearch(this)"      data-content="Calculate the integral of e^(sqrt(x)) dx"><svg class="brave-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L3 6v5c0 5.25 3.75 10.15 9 11.25C17.25 21.15 21 16.25 21 11V6L12 2zm0 2.18l7 3.27V11c0 4.25-2.98 8.18-7 9.35C7.98 19.18 5 15.25 5 11V7.45l7-3.27zM11 7v5.5l1 .5 1-.5V7h-2zm0 7v2h2v-2h-2z"/></svg>BRAVE</button>
-                    </div>
-                </li>
-                <li><span class="prob-num"></span>
-                    <span class="prob-text">$\displaystyle\int \frac{x}{\sqrt{x^2 + 2x + 5}} \, dx$</span>
-                    <div class="btn-group">
-                        <button class="copy-btn"  onclick="copyText(this)"         data-content="Calculate the integral of x / sqrt(x^2 + 2x + 5) dx">COPY</button>
-                        <button class="solve-btn" onclick="solveQuestion(this)"    data-content="Calculate the integral of x / sqrt(x^2 + 2x + 5) dx">GOOGLE</button>
-                        <button class="perp-btn"  onclick="perplexitySearch(this)" data-content="Calculate the integral of x / sqrt(x^2 + 2x + 5) dx"><svg class="perp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22 12L13.6 4v4.5H9.4C6.4 8.5 4 10.9 4 14s2.4 5.5 5.4 5.5h1.1V22L22 12zM9.4 17.5c-1.9 0-3.4-1.5-3.4-3.5s1.5-3.5 3.4-3.5h4.2v3.3L17.1 12l-3.5-3.8V10H9.4z"/></svg>ASK</button>
-                        <button class="brave-btn" onclick="braveSearch(this)"      data-content="Calculate the integral of x / sqrt(x^2 + 2x + 5) dx"><svg class="brave-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L3 6v5c0 5.25 3.75 10.15 9 11.25C17.25 21.15 21 16.25 21 11V6L12 2zm0 2.18l7 3.27V11c0 4.25-2.98 8.18-7 9.35C7.98 19.18 5 15.25 5 11V7.45l7-3.27zM11 7v5.5l1 .5 1-.5V7h-2zm0 7v2h2v-2h-2z"/></svg>BRAVE</button>
-                    </div>
-                </li>
-                <li><span class="prob-num"></span>
-                    <span class="prob-text">$\displaystyle\int \sin^3 x \cos^2 x \, dx$</span>
-                    <div class="btn-group">
-                        <button class="copy-btn"  onclick="copyText(this)"         data-content="Calculate the integral of sin^3(x) * cos^2(x) dx">COPY</button>
-                        <button class="solve-btn" onclick="solveQuestion(this)"    data-content="Calculate the integral of sin^3(x) * cos^2(x) dx">GOOGLE</button>
-                        <button class="perp-btn"  onclick="perplexitySearch(this)" data-content="Calculate the integral of sin^3(x) * cos^2(x) dx"><svg class="perp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22 12L13.6 4v4.5H9.4C6.4 8.5 4 10.9 4 14s2.4 5.5 5.4 5.5h1.1V22L22 12zM9.4 17.5c-1.9 0-3.4-1.5-3.4-3.5s1.5-3.5 3.4-3.5h4.2v3.3L17.1 12l-3.5-3.8V10H9.4z"/></svg>ASK</button>
-                        <button class="brave-btn" onclick="braveSearch(this)"      data-content="Calculate the integral of sin^3(x) * cos^2(x) dx"><svg class="brave-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L3 6v5c0 5.25 3.75 10.15 9 11.25C17.25 21.15 21 16.25 21 11V6L12 2zm0 2.18l7 3.27V11c0 4.25-2.98 8.18-7 9.35C7.98 19.18 5 15.25 5 11V7.45l7-3.27zM11 7v5.5l1 .5 1-.5V7h-2zm0 7v2h2v-2h-2z"/></svg>BRAVE</button>
-                    </div>
-                </li>
-                <li><span class="prob-num"></span>
-                    <span class="prob-text">$\displaystyle\int \frac{x^2 + 1}{x^3 - x} \, dx$</span>
-                    <div class="btn-group">
-                        <button class="copy-btn"  onclick="copyText(this)"         data-content="Calculate the integral of (x^2 + 1) / (x^3 - x) dx using partial fractions">COPY</button>
-                        <button class="solve-btn" onclick="solveQuestion(this)"    data-content="Calculate the integral of (x^2 + 1) / (x^3 - x) dx using partial fractions">GOOGLE</button>
-                        <button class="perp-btn"  onclick="perplexitySearch(this)" data-content="Calculate the integral of (x^2 + 1) / (x^3 - x) dx using partial fractions"><svg class="perp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22 12L13.6 4v4.5H9.4C6.4 8.5 4 10.9 4 14s2.4 5.5 5.4 5.5h1.1V22L22 12zM9.4 17.5c-1.9 0-3.4-1.5-3.4-3.5s1.5-3.5 3.4-3.5h4.2v3.3L17.1 12l-3.5-3.8V10H9.4z"/></svg>ASK</button>
-                        <button class="brave-btn" onclick="braveSearch(this)"      data-content="Calculate the integral of (x^2 + 1) / (x^3 - x) dx using partial fractions"><svg class="brave-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L3 6v5c0 5.25 3.75 10.15 9 11.25C17.25 21.15 21 16.25 21 11V6L12 2zm0 2.18l7 3.27V11c0 4.25-2.98 8.18-7 9.35C7.98 19.18 5 15.25 5 11V7.45l7-3.27zM11 7v5.5l1 .5 1-.5V7h-2zm0 7v2h2v-2h-2z"/></svg>BRAVE</button>
-                    </div>
-                </li>
-                <li><span class="prob-num"></span>
-                    <span class="prob-text">$\displaystyle\int x^2 e^{-x} \, dx$</span>
-                    <div class="btn-group">
-                        <button class="copy-btn"  onclick="copyText(this)"         data-content="Calculate the integral of x^2 * e^(-x) dx">COPY</button>
-                        <button class="solve-btn" onclick="solveQuestion(this)"    data-content="Calculate the integral of x^2 * e^(-x) dx">GOOGLE</button>
-                        <button class="perp-btn"  onclick="perplexitySearch(this)" data-content="Calculate the integral of x^2 * e^(-x) dx"><svg class="perp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22 12L13.6 4v4.5H9.4C6.4 8.5 4 10.9 4 14s2.4 5.5 5.4 5.5h1.1V22L22 12zM9.4 17.5c-1.9 0-3.4-1.5-3.4-3.5s1.5-3.5 3.4-3.5h4.2v3.3L17.1 12l-3.5-3.8V10H9.4z"/></svg>ASK</button>
-                        <button class="brave-btn" onclick="braveSearch(this)"      data-content="Calculate the integral of x^2 * e^(-x) dx"><svg class="brave-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L3 6v5c0 5.25 3.75 10.15 9 11.25C17.25 21.15 21 16.25 21 11V6L12 2zm0 2.18l7 3.27V11c0 4.25-2.98 8.18-7 9.35C7.98 19.18 5 15.25 5 11V7.45l7-3.27zM11 7v5.5l1 .5 1-.5V7h-2zm0 7v2h2v-2h-2z"/></svg>BRAVE</button>
                     </div>
                 </li>
             </ol>
@@ -1538,6 +1785,48 @@
                 </ol>
                 <div class="aw-box"><strong>Atomic Weights</strong>C=12.01 &nbsp;|&nbsp; O=16.00 &nbsp;|&nbsp; Cl=35.45 &nbsp;|&nbsp; H=1.008 &nbsp;|&nbsp; N=14.01</div>
             </section>
+            <section class="math-section section-anchor" id="chem-testmay2026">
+                <h2>Written Test — 19 May 2026</h2>
+                <ol class="prob-list">
+
+                    <li id="chem-may26-q1"><span class="prob-num"></span>
+                        <span class="prob-text">A container of volume $V$, at temperature $T = 200\,^\circ\text{C}$, contains a mixture of $\text{H}_2\text{S}$ and $\text{O}_2$ at a pressure of $3.00\text{ atm}$. At this temperature, the following reaction takes place with the <strong>complete consumption</strong> of the $\text{H}_2\text{S}$ reactant:<br><br>
+                        $$2\,\text{H}_2\text{S}_{(g)} + 3\,\text{O}_{2(g)} \rightarrow 2\,\text{H}_2\text{O}_{(g)} + 2\,\text{SO}_{2(g)}$$<br>
+                        Knowing that the final total pressure is $2.50\text{ atm}$, determine the <strong>composition and the density</strong> of the initial mixture. (Assume constant temperature and that all chemical species are in the gas phase.)</span>
+                        <div class="btn-group">
+                            <button class="copy-btn"  onclick="copyText(this)"         data-content="A container of volume V, at temperature T = 200°C, contains a mixture of H2S and O2 at a pressure of 3.00 atm. The reaction 2H2S + 3O2 → 2H2O + 2SO2 takes place with complete consumption of H2S. Knowing that the final total pressure is 2.50 atm, determine the composition and the density of the initial mixture. (Assume constant temperature and all species in gas phase.)">COPY</button>
+                            <button class="solve-btn" onclick="solveQuestion(this)"    data-content="A container of volume V, at temperature T = 200°C, contains a mixture of H2S and O2 at a pressure of 3.00 atm. The reaction 2H2S + 3O2 → 2H2O + 2SO2 takes place with complete consumption of H2S. Knowing that the final total pressure is 2.50 atm, determine the composition and the density of the initial mixture. (Assume constant temperature and all species in gas phase.)">GOOGLE</button>
+                            <button class="perp-btn"  onclick="perplexitySearch(this)" data-content="A container of volume V, at temperature T = 200°C, contains a mixture of H2S and O2 at a pressure of 3.00 atm. The reaction 2H2S + 3O2 → 2H2O + 2SO2 takes place with complete consumption of H2S. Knowing that the final total pressure is 2.50 atm, determine the composition and the density of the initial mixture. (Assume constant temperature and all species in gas phase.)"><svg class="perp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22 12L13.6 4v4.5H9.4C6.4 8.5 4 10.9 4 14s2.4 5.5 5.4 5.5h1.1V22L22 12zM9.4 17.5c-1.9 0-3.4-1.5-3.4-3.5s1.5-3.5 3.4-3.5h4.2v3.3L17.1 12l-3.5-3.8V10H9.4z"/></svg>ASK</button>
+                            <button class="brave-btn" onclick="braveSearch(this)"      data-content="A container of volume V, at temperature T = 200°C, contains a mixture of H2S and O2 at a pressure of 3.00 atm. The reaction 2H2S + 3O2 → 2H2O + 2SO2 takes place with complete consumption of H2S. Knowing that the final total pressure is 2.50 atm, determine the composition and the density of the initial mixture. (Assume constant temperature and all species in gas phase.)"><svg class="brave-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L3 6v5c0 5.25 3.75 10.15 9 11.25C17.25 21.15 21 16.25 21 11V6L12 2zm0 2.18l7 3.27V11c0 4.25-2.98 8.18-7 9.35C7.98 19.18 5 15.25 5 11V7.45l7-3.27zM11 7v5.5l1 .5 1-.5V7h-2zm0 7v2h2v-2h-2z"/></svg>BRAVE</button>
+                        </div>
+                    </li>
+
+                    <li id="chem-may26-q2"><span class="prob-num"></span>
+                        <span class="prob-text">By mixing $900\text{ mL}$ of an aqueous $0.700\text{ M}$ solution of $\text{NaClO}_3$ with $3.00\text{ n-L}$ of $\text{N}_2\text{H}_4$, the following reaction occurs in a basic medium:<br><br>
+                        $$\text{ClO}_3^- + \text{N}_2\text{H}_4 \rightarrow \text{NO} + \text{Cl}^-$$<br>
+                        Find the <strong>final molar concentration of $\text{Cl}^-$</strong>.</span>
+                        <div class="btn-group">
+                            <button class="copy-btn"  onclick="copyText(this)"         data-content="By mixing 900 mL of an aqueous 0.700 M solution of NaClO3 with 3.00 n-L of N2H4, the following reaction occurs in a basic medium: ClO3- + N2H4 → NO + Cl-. Find the final molar concentration of Cl-.">COPY</button>
+                            <button class="solve-btn" onclick="solveQuestion(this)"    data-content="By mixing 900 mL of an aqueous 0.700 M solution of NaClO3 with 3.00 n-L of N2H4, the following reaction occurs in a basic medium: ClO3- + N2H4 → NO + Cl-. Find the final molar concentration of Cl-.">GOOGLE</button>
+                            <button class="perp-btn"  onclick="perplexitySearch(this)" data-content="By mixing 900 mL of an aqueous 0.700 M solution of NaClO3 with 3.00 n-L of N2H4, the following reaction occurs in a basic medium: ClO3- + N2H4 → NO + Cl-. Find the final molar concentration of Cl-."><svg class="perp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22 12L13.6 4v4.5H9.4C6.4 8.5 4 10.9 4 14s2.4 5.5 5.4 5.5h1.1V22L22 12zM9.4 17.5c-1.9 0-3.4-1.5-3.4-3.5s1.5-3.5 3.4-3.5h4.2v3.3L17.1 12l-3.5-3.8V10H9.4z"/></svg>ASK</button>
+                            <button class="brave-btn" onclick="braveSearch(this)"      data-content="By mixing 900 mL of an aqueous 0.700 M solution of NaClO3 with 3.00 n-L of N2H4, the following reaction occurs in a basic medium: ClO3- + N2H4 → NO + Cl-. Find the final molar concentration of Cl-."><svg class="brave-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L3 6v5c0 5.25 3.75 10.15 9 11.25C17.25 21.15 21 16.25 21 11V6L12 2zm0 2.18l7 3.27V11c0 4.25-2.98 8.18-7 9.35C7.98 19.18 5 15.25 5 11V7.45l7-3.27zM11 7v5.5l1 .5 1-.5V7h-2zm0 7v2h2v-2h-2z"/></svg>BRAVE</button>
+                        </div>
+                    </li>
+
+                    <li id="chem-may26-q3"><span class="prob-num"></span>
+                        <span class="prob-text">Determine the <strong>pH</strong> of an aqueous solution obtained by dissolving $260\text{ g}$ of $\text{KClO}$ in $750\text{ mL}$ of water, knowing that $\text{K}_a(\text{HClO}) = 3.98 \times 10^{-8}$.</span>
+                        <div class="btn-group">
+                            <button class="copy-btn"  onclick="copyText(this)"         data-content="Determine the pH of an aqueous solution obtained by dissolving 260 g of KClO in 750 mL of water, knowing that Ka(HClO) = 3.98e-8.">COPY</button>
+                            <button class="solve-btn" onclick="solveQuestion(this)"    data-content="Determine the pH of an aqueous solution obtained by dissolving 260 g of KClO in 750 mL of water, knowing that Ka(HClO) = 3.98e-8.">GOOGLE</button>
+                            <button class="perp-btn"  onclick="perplexitySearch(this)" data-content="Determine the pH of an aqueous solution obtained by dissolving 260 g of KClO in 750 mL of water, knowing that Ka(HClO) = 3.98e-8."><svg class="perp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22 12L13.6 4v4.5H9.4C6.4 8.5 4 10.9 4 14s2.4 5.5 5.4 5.5h1.1V22L22 12zM9.4 17.5c-1.9 0-3.4-1.5-3.4-3.5s1.5-3.5 3.4-3.5h4.2v3.3L17.1 12l-3.5-3.8V10H9.4z"/></svg>ASK</button>
+                            <button class="brave-btn" onclick="braveSearch(this)"      data-content="Determine the pH of an aqueous solution obtained by dissolving 260 g of KClO in 750 mL of water, knowing that Ka(HClO) = 3.98e-8."><svg class="brave-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L3 6v5c0 5.25 3.75 10.15 9 11.25C17.25 21.15 21 16.25 21 11V6L12 2zm0 2.18l7 3.27V11c0 4.25-2.98 8.18-7 9.35C7.98 19.18 5 15.25 5 11V7.45l7-3.27zM11 7v5.5l1 .5 1-.5V7h-2zm0 7v2h2v-2h-2z"/></svg>BRAVE</button>
+                        </div>
+                    </li>
+
+                </ol>
+                <div class="aw-box"><strong>Atomic Weights</strong>H=1.008 &nbsp;|&nbsp; O=16.00 &nbsp;|&nbsp; S=32.06 &nbsp;|&nbsp; C=12.01 &nbsp;|&nbsp; Cl=35.45 &nbsp;|&nbsp; K=39.10</div>
+            </section>
+
             <!-- ═══ RECAP EXERCISES ═══════════════════════════════════════════ -->
 
             <section class="math-section section-anchor" id="recap-formulas">
@@ -2046,7 +2335,41 @@
 
         </div><!-- /#panel-chemistry -->
 
+    </div><!-- /.page-card -->
+
+    <!-- ═══ NAV FAB ═════════════════════════════════════════════════════ -->
+    <button id="nav-fab" class="nav-fab" onclick="toggleNav()" aria-label="Open navigation">
+        <span class="fab-icon icon-list" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="3" y1="6" x2="21" y2="6"/>
+                <line x1="3" y1="12" x2="21" y2="12"/>
+                <line x1="3" y1="18" x2="15" y2="18"/>
+            </svg>
+        </span>
+        <span class="fab-icon icon-close-x" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"/>
+                <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+        </span>
+    </button>
+
+    <!-- ═══ NAV OVERLAY ══════════════════════════════════════════════════ -->
+    <div id="nav-overlay" class="nav-overlay" onclick="closeNav()"></div>
+
+    <!-- ═══ NAV DRAWER ═══════════════════════════════════════════════════ -->
+    <div id="nav-drawer" class="nav-drawer" role="navigation" aria-label="Section navigation">
+        <div class="nav-drawer-header">
+            <span class="nav-drawer-title">Navigate</span>
+            <div class="nav-tab-pills">
+                <button class="nav-tab-pill active" data-tab="math" onclick="buildNavForTab('math')">&#x221E; Math</button>
+                <button class="nav-tab-pill" data-tab="chemistry" onclick="buildNavForTab('chemistry')">&#x269B; Chem</button>
+            </div>
+            <button class="nav-close-btn" onclick="closeNav()" aria-label="Close navigation">&times;</button>
+        </div>
+        <div id="nav-drawer-body" class="nav-drawer-body"></div>
     </div>
+
 </body>
 
 </html>
